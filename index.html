@@ -705,6 +705,45 @@ body {
 body::-webkit-scrollbar {
   width: 0 !important;  /* Old Chrome/Safari */
 }
+      @media screen and (max-width: 768px) {
+  /* Existing mobile styles... */
+  
+  .carousel-container {
+    height: 400px; /* Increased height for better display */
+    width: 90%; /* Better width for mobile */
+    max-width: none; /* Remove the max-width restriction */
+  }
+  
+  .carousel-item img {
+    object-fit: contain; /* Change from 'cover' to 'contain' to see full image */
+    background-color: var(--dark); /* Add background for transparent areas */
+  }
+  
+  /* Adjust arrow buttons for better mobile usability */
+  .carousel-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+}
+
+/* For very small devices */
+@media screen and (max-width: 480px) {
+  .carousel-container {
+    height: 300px; /* Slightly smaller height for very small screens */
+  }
+  
+  /* Adjust typography for very small screens */
+  .gallery-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .carousel-arrow {
+    width: 25px;
+    height: 25px;
+  }
+}
     </style>
   </head>
   <body>
@@ -1349,7 +1388,7 @@ const getRandomHeartColor = () => {
     const colors = ['#ff6b98', '#9b6dff', '#ffd166', '#ffeaf2'];
     return colors[Math.floor(Math.random() * colors.length)];
 };
-
+      
 // Add this to your initialization
 window.addEventListener('load', () => {
     // Your other initialization code...
@@ -1409,6 +1448,30 @@ window.addEventListener('load', () => {
         ];
         return colors[Math.floor(Math.random() * colors.length)];
       };
+
+      // Add this to your existing JavaScript
+const adjustCarouselForMobile = () => {
+  if (window.innerWidth <= 768) {
+    const carouselContainer = document.querySelector('.carousel-container');
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    
+    // Calculate height based on viewport height minus some space for other elements
+    const newHeight = window.innerHeight * 0.6;
+    carouselContainer.style.height = `${newHeight}px`;
+    
+    // Adjust image display
+    carouselItems.forEach(item => {
+      const img = item.querySelector('img');
+      img.style.objectFit = 'contain';
+      img.style.maxHeight = '100%';
+      img.style.maxWidth = '100%';
+    });
+  }
+};
+
+// Call initially and on resize
+window.addEventListener('load', adjustCarouselForMobile);
+window.addEventListener('resize', adjustCarouselForMobile);
 
       // Window load event
       window.addEventListener("load", () => {
